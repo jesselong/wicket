@@ -45,6 +45,17 @@ public class JavaScriptReferenceHeaderItem extends JavaScriptHeaderItem
 	private final String charset;
 
 	/**
+	 * Creates a new {@code JavaScriptReferenceHeaderItem}. This constructor uses the defaults
+	 * for {@code pageParameters}, {@code id}, {@code defer}, {@code charset} and {@code condition}.
+	 * @param reference
+	 *	    {@link ResourceReference} pointing to the javascript resource
+	 */
+	public JavaScriptReferenceHeaderItem(ResourceReference reference)
+	{
+	    this(reference, null, null, false, null, null);
+	}
+	
+	/**
 	 * Creates a new {@code JavaScriptReferenceHeaderItem}.
 	 * 
 	 * @param reference

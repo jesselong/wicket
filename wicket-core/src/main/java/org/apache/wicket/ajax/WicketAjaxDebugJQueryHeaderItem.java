@@ -42,7 +42,7 @@ public class WicketAjaxDebugJQueryHeaderItem extends JavaScriptReferenceHeaderIt
 	
 	private WicketAjaxDebugJQueryHeaderItem()
 	{
-		super(new JavaScriptResourceReference(AbstractDefaultAjaxBehavior.class, "res/js/wicket-ajax-jquery-debug.js"), null, null, false, null, null);
+		super(new JavaScriptResourceReference(AbstractDefaultAjaxBehavior.class, "res/js/wicket-ajax-jquery-debug.js"));
 	}
 
 	@Override
