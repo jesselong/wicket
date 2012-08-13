@@ -19,7 +19,6 @@ package org.apache.wicket.resource;
 import org.apache.wicket.Application;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
-import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.settings.IDebugSettings;
 import org.apache.wicket.settings.IJavaScriptLibrarySettings;
 
@@ -32,6 +31,13 @@ import org.apache.wicket.settings.IJavaScriptLibrarySettings;
 public class CoreLibrariesContributor
 {
 	/**
+	 * Private constructor for utility class
+	 */
+	private CoreLibrariesContributor()
+	{
+	}
+	
+	/**
 	 * Contributes the backing library plus the implementation of Wicket.Event.
 	 * 
 	 * @param application
@@ -42,8 +48,7 @@ public class CoreLibrariesContributor
 	public static void contribute(final Application application, final IHeaderResponse response)
 	{
 		IJavaScriptLibrarySettings jsLibrarySettings = application.getJavaScriptLibrarySettings();
-		ResourceReference wicketEventReference = jsLibrarySettings.getWicketEventReference();
-		response.render(JavaScriptHeaderItem.forReference(wicketEventReference));
+		response.render(jsLibrarySettings.getWicketEventHeaderItem());
 	}
 
 	/**
@@ -62,14 +67,13 @@ public class CoreLibrariesContributor
 		final IDebugSettings debugSettings = application.getDebugSettings();
 		if (debugSettings.isAjaxDebugModeEnabled())
 		{
-			response.render(JavaScriptHeaderItem.forReference(jsLibrarySettings.getWicketAjaxDebugReference()));
+			response.render(jsLibrarySettings.getWicketAjaxDebugHeaderItem());
 			response.render(JavaScriptHeaderItem.forScript("Wicket.Ajax.DebugWindow.enabled=true;",
 				"wicket-ajax-debug-enable"));
 		}
 		else
 		{
-			ResourceReference wicketAjaxReference = jsLibrarySettings.getWicketAjaxReference();
-			response.render(JavaScriptHeaderItem.forReference(wicketAjaxReference));
+			response.render(jsLibrarySettings.getWicketAjaxHeaderItem());
 		}
 	}
 }

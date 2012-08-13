@@ -18,7 +18,7 @@ package org.apache.wicket.bootstrap;
 
 import java.util.Arrays;
 
-import org.apache.wicket.ajax.WicketEventJQueryResourceReference;
+import org.apache.wicket.ajax.WicketEventJQueryHeaderItem;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.HeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
@@ -45,8 +45,7 @@ public class Bootstrap extends JavaScriptResourceReference {
 
 	@Override
 	public Iterable<? extends HeaderItem> getDependencies() {
-		return Arrays.asList(JavaScriptHeaderItem
-				.forReference(WicketEventJQueryResourceReference.get()),
+		return Arrays.asList((HeaderItem)WicketEventJQueryHeaderItem.get(),
 				CssHeaderItem.forReference(new CssResourceReference(
 						Bootstrap.class, "css/bootstrap.css")), CssHeaderItem
 						.forReference(new CssResourceReference(Bootstrap.class,

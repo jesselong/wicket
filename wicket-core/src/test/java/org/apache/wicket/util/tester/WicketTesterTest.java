@@ -42,6 +42,7 @@ import org.apache.wicket.core.request.handler.BookmarkablePageRequestHandler;
 import org.apache.wicket.core.request.handler.IPageProvider;
 import org.apache.wicket.core.request.handler.PageProvider;
 import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
@@ -982,9 +983,9 @@ public class WicketTesterTest extends WicketTestCase
 	@Test
 	public void startResourceReference()
 	{
-		tester.startResourceReference(tester.getApplication()
+		tester.startResourceReference(((JavaScriptReferenceHeaderItem)tester.getApplication()
 			.getJavaScriptLibrarySettings()
-			.getWicketAjaxReference());
+			.getWicketAjaxHeaderItem()).getReference());
 		// verify that a random string from that resource is in the response
 		tester.assertContains("getAjaxBaseUrl");
 	}
@@ -995,9 +996,10 @@ public class WicketTesterTest extends WicketTestCase
 	@Test
 	public void startResource()
 	{
-		tester.startResource(tester.getApplication()
+		tester.startResource(((JavaScriptReferenceHeaderItem)tester.getApplication()
 			.getJavaScriptLibrarySettings()
-			.getWicketAjaxReference()
+			.getWicketAjaxHeaderItem())
+			.getReference()
 			.getResource());
 		// verify that a random string from that resource is in the response
 		tester.assertContains("getAjaxBaseUrl");

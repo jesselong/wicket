@@ -16,48 +16,49 @@
  */
 package org.apache.wicket.ajax;
 
-import java.util.Collections;
+import java.util.Arrays;
 
 import org.apache.wicket.Application;
 import org.apache.wicket.markup.head.HeaderItem;
-import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
-import org.apache.wicket.request.resource.ResourceReference;
 
 /**
  * @author hoeve
  */
-public class WicketAjaxJQueryResourceReference extends JavaScriptResourceReference
+public class WicketEventJQueryHeaderItem extends JavaScriptReferenceHeaderItem
 {
 	private static final long serialVersionUID = -2918665261694523156L;
 
-	private static final WicketAjaxJQueryResourceReference INSTANCE = new WicketAjaxJQueryResourceReference();
+	private static final WicketEventJQueryHeaderItem INSTANCE = new WicketEventJQueryHeaderItem();
 
 	/**
 	 * @return the singleton INSTANCE
 	 */
-	public static WicketAjaxJQueryResourceReference get()
+	public static WicketEventJQueryHeaderItem get()
 	{
 		return INSTANCE;
 	}
 
-	private WicketAjaxJQueryResourceReference()
+	private WicketEventJQueryHeaderItem()
 	{
-		super(AbstractDefaultAjaxBehavior.class, "res/js/wicket-ajax-jquery.js");
+		super(new JavaScriptResourceReference(AbstractDefaultAjaxBehavior.class, "res/js/wicket-event-jquery.js"), null, null, false, null, null);
 	}
 
 	@Override
 	public Iterable<? extends HeaderItem> getDependencies()
 	{
-		final ResourceReference wicketEventReference;
+		final HeaderItem backingLibraryHeaderItem;
 		if (Application.exists())
 		{
-			wicketEventReference = Application.get().getJavaScriptLibrarySettings().getWicketEventReference();
+			backingLibraryHeaderItem = Application.get()
+				.getJavaScriptLibrarySettings()
+				.getJQueryHeaderItem();
 		}
 		else
 		{
-			wicketEventReference = WicketEventJQueryResourceReference.get();
+			backingLibraryHeaderItem = JQueryHeaderItem.get();
 		}
-		return Collections.singletonList(JavaScriptHeaderItem.forReference(wicketEventReference));
+		return Arrays.asList(backingLibraryHeaderItem);
 	}
 }

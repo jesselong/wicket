@@ -20,44 +20,43 @@ import java.util.Collections;
 
 import org.apache.wicket.Application;
 import org.apache.wicket.markup.head.HeaderItem;
-import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
-import org.apache.wicket.request.resource.ResourceReference;
 
 /**
  * @author hoeve
  */
-public class WicketAjaxDebugJQueryResourceReference extends JavaScriptResourceReference
+public class WicketAjaxDebugJQueryHeaderItem extends JavaScriptReferenceHeaderItem
 {
 	private static final long serialVersionUID = 1L;
 
-	private static final WicketAjaxDebugJQueryResourceReference INSTANCE = new WicketAjaxDebugJQueryResourceReference();
+	private static final WicketAjaxDebugJQueryHeaderItem INSTANCE = new WicketAjaxDebugJQueryHeaderItem();
 
 	/**
 	 * @return the singleton INSTANCE
 	 */
-	public static WicketAjaxDebugJQueryResourceReference get()
+	public static WicketAjaxDebugJQueryHeaderItem get()
 	{
 		return INSTANCE;
 	}
-
-	private WicketAjaxDebugJQueryResourceReference()
+	
+	private WicketAjaxDebugJQueryHeaderItem()
 	{
-		super(AbstractDefaultAjaxBehavior.class, "res/js/wicket-ajax-jquery-debug.js");
+		super(new JavaScriptResourceReference(AbstractDefaultAjaxBehavior.class, "res/js/wicket-ajax-jquery-debug.js"), null, null, false, null, null);
 	}
 
 	@Override
 	public Iterable<? extends HeaderItem> getDependencies()
 	{
-		final ResourceReference wicketAjaxReference;
+		final HeaderItem wicketAjaxHeaderItem;
 		if (Application.exists())
 		{
-			wicketAjaxReference = Application.get().getJavaScriptLibrarySettings().getWicketAjaxReference();
+			wicketAjaxHeaderItem = Application.get().getJavaScriptLibrarySettings().getWicketAjaxHeaderItem();
 		}
 		else
 		{
-			wicketAjaxReference = WicketAjaxJQueryResourceReference.get();
+			wicketAjaxHeaderItem = WicketAjaxJQueryHeaderItem.get();
 		}
-		return Collections.singletonList(JavaScriptHeaderItem.forReference(wicketAjaxReference));
+		return Collections.singletonList(wicketAjaxHeaderItem);
 	}
 }

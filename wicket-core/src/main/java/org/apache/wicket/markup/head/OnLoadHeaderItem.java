@@ -20,7 +20,6 @@ import java.util.Collections;
 
 import org.apache.wicket.Application;
 import org.apache.wicket.request.Response;
-import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.settings.IJavaScriptLibrarySettings;
 import org.apache.wicket.util.lang.Args;
 import org.apache.wicket.core.util.string.JavaScriptUtils;
@@ -103,7 +102,7 @@ public class OnLoadHeaderItem extends HeaderItem
 	public Iterable<? extends HeaderItem> getDependencies()
 	{
 		IJavaScriptLibrarySettings ajaxSettings = Application.get().getJavaScriptLibrarySettings();
-		ResourceReference wicketEventReference = ajaxSettings.getWicketEventReference();
-		return Collections.singletonList(JavaScriptHeaderItem.forReference(wicketEventReference));
+		HeaderItem wicketEventHeaderItem = ajaxSettings.getWicketEventHeaderItem();
+		return Collections.singletonList(wicketEventHeaderItem);
 	}
 }

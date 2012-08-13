@@ -16,11 +16,11 @@
  */
 package org.apache.wicket.settings.def;
 
-import org.apache.wicket.ajax.WicketAjaxDebugJQueryResourceReference;
-import org.apache.wicket.ajax.WicketAjaxJQueryResourceReference;
-import org.apache.wicket.ajax.WicketEventJQueryResourceReference;
-import org.apache.wicket.request.resource.ResourceReference;
-import org.apache.wicket.resource.JQueryResourceReference;
+import org.apache.wicket.ajax.JQueryHeaderItem;
+import org.apache.wicket.ajax.WicketAjaxDebugJQueryHeaderItem;
+import org.apache.wicket.ajax.WicketAjaxJQueryHeaderItem;
+import org.apache.wicket.ajax.WicketEventJQueryHeaderItem;
+import org.apache.wicket.markup.head.HeaderItem;
 import org.apache.wicket.settings.IJavaScriptLibrarySettings;
 import org.apache.wicket.util.lang.Args;
 
@@ -29,61 +29,61 @@ import org.apache.wicket.util.lang.Args;
  */
 public class JavaScriptLibrarySettings implements IJavaScriptLibrarySettings
 {
-	private ResourceReference jQueryReference = JQueryResourceReference.get();
+	private HeaderItem jQueryHeaderItem = JQueryHeaderItem.get();
 
-	private ResourceReference wicketEventReference = WicketEventJQueryResourceReference.get();
+	private HeaderItem wicketEventHeaderItem = WicketEventJQueryHeaderItem.get();
 
-	private ResourceReference wicketAjaxReference = WicketAjaxJQueryResourceReference.get();
+	private HeaderItem wicketAjaxHeaderItem = WicketAjaxJQueryHeaderItem.get();
 
-	private ResourceReference wicketAjaxDebugReference = WicketAjaxDebugJQueryResourceReference.get();
+	private HeaderItem wicketAjaxDebugHeaderItem = WicketAjaxDebugJQueryHeaderItem.get();
 
 	@Override
-	public ResourceReference getJQueryReference()
+	public HeaderItem getJQueryHeaderItem()
 	{
-		return jQueryReference;
+		return jQueryHeaderItem;
 	}
 
 	@Override
-	public void setJQueryReference(ResourceReference jQueryReference)
+	public void setJQueryHeaderItem(HeaderItem jQueryHeaderItem)
 	{
-		this.jQueryReference = Args.notNull(jQueryReference, "jQueryReference");
+		this.jQueryHeaderItem = Args.notNull(jQueryHeaderItem, "jQueryHeaderItem");
 	}
 
 	@Override
-	public ResourceReference getWicketEventReference()
+	public HeaderItem getWicketEventHeaderItem()
 	{
-		return wicketEventReference;
+		return wicketEventHeaderItem;
 	}
 
 	@Override
-	public void setWicketEventReference(ResourceReference wicketEventReference)
+	public void setWicketEventHeaderItem(HeaderItem wicketEventHeaderItem)
 	{
-		this.wicketEventReference = Args.notNull(wicketEventReference, "wicketEventReference");
+		this.wicketEventHeaderItem = Args.notNull(wicketEventHeaderItem, "wicketEventHeaderItem");
 	}
 
 	@Override
-	public ResourceReference getWicketAjaxReference()
+	public HeaderItem getWicketAjaxHeaderItem()
 	{
-		return wicketAjaxReference;
+		return wicketAjaxHeaderItem;
 	}
 
 	@Override
-	public void setWicketAjaxReference(ResourceReference wicketAjaxReference)
+	public void setWicketAjaxHeaderItem(HeaderItem wicketAjaxHeaderItem)
 	{
-		this.wicketAjaxReference = Args.notNull(wicketAjaxReference, "wicketAjaxReference");
+		this.wicketAjaxHeaderItem = Args.notNull(wicketAjaxHeaderItem, "wicketAjaxHeaderItem");
 	}
 
 	@Override
-	public ResourceReference getWicketAjaxDebugReference()
+	public HeaderItem getWicketAjaxDebugHeaderItem()
 	{
-		return wicketAjaxDebugReference;
+		return wicketAjaxDebugHeaderItem;
 	}
 
 	@Override
-	public void setWicketAjaxDebugReference(ResourceReference wicketAjaxDebugReference)
+	public void setWicketAjaxDebugHeaderItem(HeaderItem wicketAjaxDebugHeaderItem)
 	{
-		this.wicketAjaxDebugReference = Args.notNull(wicketAjaxDebugReference,
-			"wicketAjaxDebugReference");
+		this.wicketAjaxDebugHeaderItem = Args.notNull(wicketAjaxDebugHeaderItem,
+			"wicketAjaxDebugHeaderItem");
 	}
 
 }

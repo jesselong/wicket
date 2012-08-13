@@ -16,7 +16,7 @@
  */
 package org.apache.wicket.settings;
 
-import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.markup.head.HeaderItem;
 import org.apache.wicket.resource.JQueryResourceReference;
 
 
@@ -27,8 +27,8 @@ import org.apache.wicket.resource.JQueryResourceReference;
  * event and Ajax functionality. By default Wicket uses {@linkplain JQueryResourceReference JQuery}
  * as a backing library but via this interface the application can replace the implementations of
  * wicket-event.js, wicket-ajax.js and wicket-ajax-debug.js to use implementations on other
- * libraries, such as YUI or DOJO. The resource reference implementations need to specify the
- * {@linkplain ResourceReference#getDependencies() dependency} on the backing library, if needed.
+ * libraries, such as YUI or DOJO. The header item implementations need to specify the
+ * {@linkplain HeaderItem#getDependencies() dependency} on the backing library, if needed.
  * 
  * @since 6.0
  */
@@ -36,50 +36,50 @@ public interface IJavaScriptLibrarySettings
 {
 
 	/**
-	 * @return the reference to the JQuery JavaScript library used as backing library for
+	 * @return the header contribution for the JQuery JavaScript library used as backing library for
 	 *         wicket-event and wicket-ajax
 	 */
-	ResourceReference getJQueryReference();
+	HeaderItem getJQueryHeaderItem();
 
 	/**
-	 * @param reference
-	 *            a reference to the JQuery JavaScript library used as backing library for
+	 * @param contribution 
+	 *            a header contribution for the JQuery JavaScript library used as backing library for
 	 *            wicket-event and wicket-ajax
 	 */
-	void setJQueryReference(ResourceReference reference);
+	void setJQueryHeaderItem(HeaderItem contribution);
 
 	/**
-	 * @return the reference to the implementation of wicket-event.js
+	 * @return the header item for the implementation of wicket-event.js
 	 */
-	ResourceReference getWicketEventReference();
+	HeaderItem getWicketEventHeaderItem();
 
 	/**
-	 * @param reference
-	 *            a reference to the implementation of wicket-event.js
+	 * @param contribution
+	 *            a header contribution for the implementation of wicket-event.js
 	 */
-	void setWicketEventReference(ResourceReference reference);
+	void setWicketEventHeaderItem(HeaderItem contribution);
 
 	/**
-	 * @return the reference to the implementation of wicket-ajax.js
+	 * @return the header contribution for the implementation of wicket-ajax.js
 	 */
-	ResourceReference getWicketAjaxReference();
+	HeaderItem getWicketAjaxHeaderItem();
 
 	/**
-	 * @param reference
-	 *            a reference to the implementation of wicket-ajax.js
+	 * @param contribution
+	 *            a header contribution for the implementation of wicket-ajax.js
 	 */
-	void setWicketAjaxReference(ResourceReference reference);
+	void setWicketAjaxHeaderItem(HeaderItem contribution);
 
 	/**
 	 * The Wicket Ajax Debug Window.
 	 * 
-	 * @return the reference to the implementation of wicket-ajax-debug.js
+	 * @return the header contribution for the implementation of wicket-ajax-debug.js
 	 */
-	ResourceReference getWicketAjaxDebugReference();
+	HeaderItem getWicketAjaxDebugHeaderItem();
 
 	/**
-	 * @param reference
-	 *            a reference to the implementation of wicket-ajax-debug.js
+	 * @param contribution
+	 *            a header contribution for the implementation of wicket-ajax-debug.js
 	 */
-	void setWicketAjaxDebugReference(ResourceReference reference);
+	void setWicketAjaxDebugHeaderItem(HeaderItem contribution);
 }

@@ -19,11 +19,9 @@ package org.apache.wicket.protocol.ws.api;
 import java.util.Collections;
 
 import org.apache.wicket.Application;
-import org.apache.wicket.ajax.WicketAjaxJQueryResourceReference;
+import org.apache.wicket.ajax.WicketAjaxJQueryHeaderItem;
 import org.apache.wicket.markup.head.HeaderItem;
-import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
-import org.apache.wicket.request.resource.ResourceReference;
 
 /**
  * A resource reference that provides the JavaScript that may be used to create WebSocket
@@ -54,13 +52,13 @@ public class WicketWebSocketJQueryResourceReference extends JavaScriptResourceRe
 	@Override
 	public Iterable<? extends HeaderItem> getDependencies()
 	{
-		final ResourceReference wicketAjaxReference;
+		final HeaderItem wicketAjaxHeaderItem;
 		if (Application.exists()) {
-			wicketAjaxReference = Application.get().getJavaScriptLibrarySettings().getWicketAjaxReference();
+			wicketAjaxHeaderItem = Application.get().getJavaScriptLibrarySettings().getWicketAjaxHeaderItem();
 		}
 		else {
-			wicketAjaxReference = WicketAjaxJQueryResourceReference.get();
+			wicketAjaxHeaderItem = WicketAjaxJQueryHeaderItem.get();
 		}
-		return Collections.singletonList(JavaScriptHeaderItem.forReference(wicketAjaxReference));
+		return Collections.singletonList(wicketAjaxHeaderItem);
 	}
 }

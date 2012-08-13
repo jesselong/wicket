@@ -20,10 +20,9 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import org.apache.wicket.Application;
+import org.apache.wicket.ajax.JQueryHeaderItem;
 import org.apache.wicket.markup.head.HeaderItem;
-import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
-import org.apache.wicket.request.resource.ResourceReference;
 
 /**
  * Base class for JavaScript resources that are JQuery plugins. This class already defines a
@@ -71,17 +70,17 @@ public class JQueryPluginResourceReference extends JavaScriptResourceReference
 	@Override
 	public Iterable<? extends HeaderItem> getDependencies()
 	{
-		final ResourceReference backingLibraryReference;
+		final HeaderItem backingLibraryHeaderItem;
 		if (Application.exists())
 		{
-			backingLibraryReference = Application.get()
+			backingLibraryHeaderItem = Application.get()
 				.getJavaScriptLibrarySettings()
-				.getJQueryReference();
+				.getJQueryHeaderItem();
 		}
 		else
 		{
-			backingLibraryReference = JQueryResourceReference.get();
+			backingLibraryHeaderItem = JQueryHeaderItem.get();
 		}
-		return Arrays.asList(JavaScriptHeaderItem.forReference(backingLibraryReference));
+		return Arrays.asList(backingLibraryHeaderItem);
 	}
 }
