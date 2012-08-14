@@ -489,12 +489,4 @@ public abstract class ResourceReference implements IClusterable
 	{
 		return data.toString();
 	}
-
-	/**
-	 * @return the resources this ResourceReference depends on.
-	 */
-	public Iterable<? extends HeaderItem> getDependencies()
-	{
-		return Collections.emptyList();
-	}
 }

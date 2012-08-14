@@ -14,57 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.wicket.resource;
+package org.apache.wicket.markup.head;
 
 import java.util.Arrays;
-import java.util.Locale;
 
 import org.apache.wicket.Application;
 import org.apache.wicket.ajax.JQueryHeaderItem;
-import org.apache.wicket.markup.head.HeaderItem;
-import org.apache.wicket.request.resource.JavaScriptResourceReference;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.ResourceReference;
 
 /**
- * Base class for JavaScript resources that are JQuery plugins. This class already defines a
- * dependency on JQuery.
+ * Header item for use when including jQuery plugins. It already contains a reference to jQuery.
  * 
  * @author papegaaij
  */
-public class JQueryPluginResourceReference extends JavaScriptResourceReference
+public class JQueryPluginHeaderItem extends JavaScriptReferenceHeaderItem
 {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Creates a new {@code JQueryPluginResourceReference}
-	 * 
-	 * @param scope
-	 *            mandatory parameter
-	 * @param name
-	 *            mandatory parameter
-	 */
-	public JQueryPluginResourceReference(Class<?> scope, String name)
+	public JQueryPluginHeaderItem(ResourceReference reference)
 	{
-		super(scope, name);
+		super(reference);
 	}
 
-	/**
-	 * Creates a new {@code JQueryPluginResourceReference}
-	 * 
-	 * @param scope
-	 *            mandatory parameter
-	 * @param name
-	 *            mandatory parameter
-	 * @param locale
-	 *            resource locale
-	 * @param style
-	 *            resource style
-	 * @param variation
-	 *            resource variation
-	 */
-	public JQueryPluginResourceReference(Class<?> scope, String name, Locale locale, String style,
-		String variation)
+	public JQueryPluginHeaderItem(ResourceReference reference, PageParameters pageParameters, String id, boolean defer, String charset, String condition)
 	{
-		super(scope, name, locale, style, variation);
+		super(reference, pageParameters, id, defer, charset, condition);
+	}
+	
+	/**
+	 * Returns a new header item for the plugin referenced by {@code reference}.
+	 * @param reference
+	 *	    the resource reference for the plugin
+	 * @return a new header item referencing jQuery and the plugin referenced by {@code reference}.
+	 */
+	public static JQueryPluginHeaderItem forReference(ResourceReference reference)
+	{
+	    return new JQueryPluginHeaderItem(reference);
 	}
 
 	@Override

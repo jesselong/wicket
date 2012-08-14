@@ -21,32 +21,33 @@ import java.util.Collections;
 import org.apache.wicket.Application;
 import org.apache.wicket.ajax.WicketAjaxJQueryHeaderItem;
 import org.apache.wicket.markup.head.HeaderItem;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
 
 /**
- * A resource reference that provides the JavaScript that may be used to create WebSocket
+ * A header item that provides the JavaScript that may be used to create WebSocket
  * connections in the browser. The benefit over usage of plain &lt;code&gt;window.WebSocket&lt;code&gt;
  * is that it supports handling of Wicket's &lt;ajax-response&gt; responses.
  *
  * @since 6.0
  */
-public class WicketWebSocketJQueryResourceReference extends JavaScriptResourceReference
+public class WicketWebSocketJQueryHeaderItem extends JavaScriptReferenceHeaderItem
 {
 	private static final long serialVersionUID = 1;
 
-	private static final WicketWebSocketJQueryResourceReference instance = new WicketWebSocketJQueryResourceReference();
+	private static final WicketWebSocketJQueryHeaderItem instance = new WicketWebSocketJQueryHeaderItem();
 
 	/**
 	 * @return the singleton instance
 	 */
-	public static WicketWebSocketJQueryResourceReference get()
+	public static WicketWebSocketJQueryHeaderItem get()
 	{
 		return instance;
 	}
 
-	private WicketWebSocketJQueryResourceReference()
+	private WicketWebSocketJQueryHeaderItem()
 	{
-		super(WicketWebSocketJQueryResourceReference.class, "res/js/wicket-websocket-jquery.js");
+		super(new JavaScriptResourceReference(WicketWebSocketJQueryHeaderItem.class, "res/js/wicket-websocket-jquery.js"));
 	}
 
 	@Override

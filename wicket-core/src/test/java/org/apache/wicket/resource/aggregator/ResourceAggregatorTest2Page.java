@@ -17,8 +17,9 @@
 package org.apache.wicket.resource.aggregator;
 
 import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.resource.JQueryPluginResourceReference;
+import org.apache.wicket.markup.head.JQueryPluginHeaderItem;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.request.resource.JavaScriptResourceReference;
 
 /**
  * Dummy page used for testing the {@link org.apache.wicket.markup.head.ResourceAggregator}.
@@ -43,7 +44,7 @@ public class ResourceAggregatorTest2Page extends ResourceAggregatorTest1Page
 	{
 		super.renderHead(response);
 
-		response.render(JavaScriptHeaderItem.forReference(new JQueryPluginResourceReference(
+		response.render(JQueryPluginHeaderItem.forReference(new JavaScriptResourceReference(
 			ResourceAggregatorTest2Page.class, "ResourceAggregatorTest2Page.js")));
 	}
 }

@@ -25,7 +25,7 @@ import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
-import org.apache.wicket.resource.JQueryPluginResourceReference;
+import org.apache.wicket.markup.head.JQueryPluginHeaderItem;
 
 /**
  * @author papegaaij
@@ -60,8 +60,8 @@ public class FilteredHeaderPage extends WebPage
 			JavaScriptFilteredIntoFooterHeaderResponse.HEADER_FILTER_NAME));
 
 		// rendered at the bottom of the body bucket
-		JQueryPluginResourceReference bottomJs = new JQueryPluginResourceReference(
-			FilteredHeaderPage.class, "bottom.js")
+		JQueryPluginHeaderItem bottomJs = new JQueryPluginHeaderItem(
+			new JavaScriptResourceReference(FilteredHeaderPage.class, "bottom.js"))
 		{
 			private static final long serialVersionUID = 1L;
 
@@ -79,6 +79,6 @@ public class FilteredHeaderPage extends WebPage
 				return deps;
 			}
 		};
-		response.render(JavaScriptHeaderItem.forReference(bottomJs));
+		response.render(bottomJs);
 	}
 }

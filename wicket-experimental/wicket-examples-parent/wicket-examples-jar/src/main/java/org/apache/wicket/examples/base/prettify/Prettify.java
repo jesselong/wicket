@@ -5,11 +5,11 @@ import java.util.Arrays;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.HeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
 
-public class Prettify extends JavaScriptResourceReference {
+public class Prettify extends JavaScriptReferenceHeaderItem {
 	private static final long serialVersionUID = 1L;
 
 	private static final Prettify instance = new Prettify();
@@ -19,11 +19,11 @@ public class Prettify extends JavaScriptResourceReference {
 	}
 
 	public static void renderHead(IHeaderResponse response) {
-		response.render(JavaScriptHeaderItem.forReference(Prettify.get()));
+		response.render(get());
 	}
 
 	private Prettify() {
-		super(Prettify.class, "prettify.js");
+		super(new JavaScriptResourceReference(Prettify.class, "prettify.js"));
 	}
 
 	@Override

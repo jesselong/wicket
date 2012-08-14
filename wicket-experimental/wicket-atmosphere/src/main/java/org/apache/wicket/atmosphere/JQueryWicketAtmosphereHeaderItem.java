@@ -19,38 +19,38 @@ package org.apache.wicket.atmosphere;
 import java.util.Arrays;
 
 import org.apache.wicket.markup.head.HeaderItem;
-import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
-import org.apache.wicket.resource.JQueryPluginResourceReference;
+import org.apache.wicket.markup.head.JQueryPluginHeaderItem;
 
 /**
- * Resource reference for the jquery.atmosphere.js module and the wicket glue.
+ * Header item for the jquery.atmosphere.js module and the wicket glue.
  * 
  * @author papegaaij
  */
-public class JQueryWicketAtmosphereResourceReference extends JavaScriptResourceReference
+public class JQueryWicketAtmosphereHeaderItem extends JavaScriptReferenceHeaderItem
 {
 	private static final long serialVersionUID = 1L;
 
-	private static final JQueryWicketAtmosphereResourceReference INSTANCE = new JQueryWicketAtmosphereResourceReference();
+	private static final JQueryWicketAtmosphereHeaderItem INSTANCE = new JQueryWicketAtmosphereHeaderItem();
 
 	/**
 	 * @return the singleton instance of this resource reference.
 	 */
-	public static JQueryWicketAtmosphereResourceReference get()
+	public static JQueryWicketAtmosphereHeaderItem get()
 	{
 		return INSTANCE;
 	}
 
-	private JQueryWicketAtmosphereResourceReference()
+	private JQueryWicketAtmosphereHeaderItem()
 	{
-		super(JQueryWicketAtmosphereResourceReference.class, "jquery.wicketatmosphere.js");
+		super(new JavaScriptResourceReference(JQueryWicketAtmosphereHeaderItem.class, "jquery.wicketatmosphere.js"));
 	}
 
 	@Override
 	public Iterable<? extends HeaderItem> getDependencies()
 	{
-		return Arrays.asList(JavaScriptHeaderItem.forReference(new JQueryPluginResourceReference(
-			JQueryWicketAtmosphereResourceReference.class, "jquery.atmosphere.js")));
+		return Arrays.asList(JQueryPluginHeaderItem.forReference(new JavaScriptResourceReference(
+			JQueryWicketAtmosphereHeaderItem.class, "jquery.atmosphere.js")));
 	}
 }

@@ -22,11 +22,11 @@ import org.apache.wicket.ajax.WicketEventJQueryHeaderItem;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.HeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
 
-public class Bootstrap extends JavaScriptResourceReference {
+public class Bootstrap extends JavaScriptReferenceHeaderItem {
 	private static final long serialVersionUID = 1L;
 
 	private static final Bootstrap instance = new Bootstrap();
@@ -36,11 +36,11 @@ public class Bootstrap extends JavaScriptResourceReference {
 	}
 
 	public static void renderHead(IHeaderResponse response) {
-		response.render(JavaScriptHeaderItem.forReference(Bootstrap.get()));
+		response.render(get());
 	}
 
 	private Bootstrap() {
-		super(Bootstrap.class, "js/bootstrap.js");
+		super(new JavaScriptResourceReference(Bootstrap.class, "js/bootstrap.js"));
 	}
 
 	@Override

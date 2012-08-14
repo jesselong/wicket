@@ -33,7 +33,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.request.resource.PackageResourceReference;
-import org.apache.wicket.resource.JQueryPluginResourceReference;
+import org.apache.wicket.markup.head.JQueryPluginHeaderItem;
 import org.apache.wicket.util.time.Duration;
 
 /**
@@ -109,7 +109,7 @@ public class HomePage extends WicketExamplePage
 		// example of something that may be limited to certain pages:
 		response.render(CssHeaderItem.forReference(new CssResourceReference(HomePage.class,
 			"HomePage.css")));
-		response.render(JavaScriptHeaderItem.forReference(new JQueryPluginResourceReference(
+		response.render(JQueryPluginHeaderItem.forReference(new JavaScriptResourceReference(
 			HomePage.class, "HomePage.js")));
 		response.render(new FilteredHeaderItem(
 			JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(HomePage.class,

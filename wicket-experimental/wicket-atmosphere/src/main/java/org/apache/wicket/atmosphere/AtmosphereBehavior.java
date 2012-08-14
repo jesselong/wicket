@@ -26,7 +26,6 @@ import org.apache.wicket.ajax.json.JSONException;
 import org.apache.wicket.ajax.json.JSONObject;
 import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import org.apache.wicket.request.cycle.RequestCycle;
@@ -183,7 +182,7 @@ public class AtmosphereBehavior extends Behavior
 		{
 			CoreLibrariesContributor.contributeAjax(component.getApplication(), response);
 
-			response.render(JavaScriptHeaderItem.forReference(JQueryWicketAtmosphereResourceReference.get()));
+			response.render(JQueryWicketAtmosphereHeaderItem.get());
 			JSONObject options = new JSONObject();
 			options.put("url",
 				component.urlFor(this, IResourceListener.INTERFACE, new PageParameters())

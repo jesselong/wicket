@@ -86,12 +86,6 @@ public class CssReferenceHeaderItem extends CssHeaderItem implements IReferenceH
 	}
 
 	@Override
-	public Iterable<? extends HeaderItem> getDependencies()
-	{
-		return getReference().getDependencies();
-	}
-
-	@Override
 	public Iterable<? extends HeaderItem> getProvidedResources()
 	{
 		if (getReference() instanceof IResourceBundle)

@@ -52,7 +52,7 @@ public class JavaScriptReferenceHeaderItem extends JavaScriptHeaderItem
 	 */
 	public JavaScriptReferenceHeaderItem(ResourceReference reference)
 	{
-	    this(reference, null, null, false, null, null);
+		this(reference, null, null, false, null, null);
 	}
 	
 	/**
@@ -129,7 +129,7 @@ public class JavaScriptReferenceHeaderItem extends JavaScriptHeaderItem
 	@Override
 	public Iterable<? extends HeaderItem> getDependencies()
 	{
-		return getReference().getDependencies();
+		return Collections.emptyList();
 	}
 
 	@Override

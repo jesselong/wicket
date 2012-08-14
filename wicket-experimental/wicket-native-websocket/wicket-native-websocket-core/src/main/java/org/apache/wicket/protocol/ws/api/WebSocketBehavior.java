@@ -23,7 +23,6 @@ import org.apache.wicket.ajax.WebSocketRequestHandler;
 import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.event.IEvent;
 import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.protocol.ws.api.event.WebSocketBinaryPayload;
 import org.apache.wicket.protocol.ws.api.event.WebSocketClosedPayload;
@@ -38,7 +37,7 @@ import org.apache.wicket.util.lang.Generics;
 import org.apache.wicket.util.template.PackageTextTemplate;
 
 /**
- * A behavior that contributes {@link WicketWebSocketJQueryResourceReference} and
+ * A behavior that contributes {@link WicketWebSocketJQueryHeaderItem} and
  * provides optional callbacks for the WebSocket messages (connect, message, close)
  *
  * @since 6.0
@@ -102,10 +101,10 @@ public abstract class WebSocketBehavior extends Behavior
 	{
 		super.renderHead(component, response);
 
-		response.render(JavaScriptHeaderItem.forReference(WicketWebSocketJQueryResourceReference.get()));
+		response.render(WicketWebSocketJQueryHeaderItem.get());
 
 		PackageTextTemplate webSocketSetupTemplate =
-				new PackageTextTemplate(WicketWebSocketJQueryResourceReference.class, "res/js/wicket-websocket-setup.js.tmpl");
+				new PackageTextTemplate(WicketWebSocketJQueryHeaderItem.class, "res/js/wicket-websocket-setup.js.tmpl");
 		Map<String, Object> variables = Generics.newHashMap();
 		int pageId = component.getPage().getPageId();
 		variables.put("pageId", Integer.valueOf(pageId));
