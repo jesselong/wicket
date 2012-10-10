@@ -10,14 +10,13 @@ import java.util.List;
 import org.apache.wicket.Application;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.util.convert.IConverter;
 
 public class CSVDataExporter
         extends AbstractDataExporter
 {
-    public CSVDataExporter(IModel<String> dataFormatNameModel, String contentType, String fileNameExtension)
+    public CSVDataExporter()
     {
         super(Model.of("CSV"), "text/csv", "csv");
     }
