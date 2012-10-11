@@ -39,143 +39,141 @@ import org.apache.wicket.util.resource.AbstractResourceStreamWriter;
 import org.apache.wicket.util.resource.IResourceStream;
 
 public class ExportToolbar
-        extends AbstractToolbar
+	extends AbstractToolbar
 {
     private static final long serialVersionUID = 1L;
     private static final IModel<String> DEFAULT_MESSAGE_MODEL = new ResourceModel(
-            "datatable.export-to");
+	    "datatable.export-to");
     private static final IModel<String> DEFAULT_FILE_NAME_MODEL = new ResourceModel(
-            "datatable.export-file-name");
+	    "datatable.export-file-name");
     private final List<IDataExporter> dataExporters = new LinkedList<IDataExporter>();
     private final IModel<String> messageModel;
     private IModel<String> fileNameModel;
 
-    /**
-     * Constructor
-     *
-     * @param table data table this toolbar will be attached to
-     */
     public ExportToolbar(final DataTable<?, ?> table)
     {
-        this(table, DEFAULT_MESSAGE_MODEL, DEFAULT_FILE_NAME_MODEL);
+	this(table, DEFAULT_MESSAGE_MODEL, DEFAULT_FILE_NAME_MODEL);
+    }
+
+    public ExportToolbar(DataTable<?, ?> table, IModel<String> fileNameModel)
+    {
+	this(table, DEFAULT_MESSAGE_MODEL, fileNameModel);
     }
 
     public ExportToolbar(DataTable<?, ?> table, IModel<String> messageModel, IModel<String> fileNameModel)
     {
-        super(table);
-        this.messageModel = messageModel;
-        this.fileNameModel = fileNameModel;
+	super(table);
+	this.messageModel = messageModel;
+	this.fileNameModel = fileNameModel;
     }
-
-    
 
     @Override
     protected void onInitialize()
     {
-        super.onInitialize();
+	super.onInitialize();
 
-        WebMarkupContainer td = new WebMarkupContainer("td");
-        add(td);
+	WebMarkupContainer td = new WebMarkupContainer("td");
+	add(td);
 
-        td.add(AttributeModifier.replace("colspan", new AbstractReadOnlyModel<String>()
-        {
-            private static final long serialVersionUID = 1L;
+	td.add(AttributeModifier.replace("colspan", new AbstractReadOnlyModel<String>()
+	{
+	    private static final long serialVersionUID = 1L;
 
-            @Override
-            public String getObject()
-            {
-                return String.valueOf(getTable().getColumns().size());
-            }
-        }));
+	    @Override
+	    public String getObject()
+	    {
+		return String.valueOf(getTable().getColumns().size());
+	    }
+	}));
 
-        td.add(new Label("exportTo", messageModel));
+	td.add(new Label("exportTo", messageModel));
 
-        RepeatingView linkContainers = new RepeatingView("linkContainer");
-        td.add(linkContainers);
+	RepeatingView linkContainers = new RepeatingView("linkContainer");
+	td.add(linkContainers);
 
-        for (IDataExporter exporter : dataExporters){
-            WebMarkupContainer span = new WebMarkupContainer(linkContainers.newChildId());
-            linkContainers.add(span);
+	for (IDataExporter exporter : dataExporters){
+	    WebMarkupContainer span = new WebMarkupContainer(linkContainers.newChildId());
+	    linkContainers.add(span);
 
-            span.add(createExportLink("exportLink", exporter));
-        }
+	    span.add(createExportLink("exportLink", exporter));
+	}
     }
 
     protected Component createExportLink(String componentId, final IDataExporter dataExporter)
     {
-        return new ResourceLink<Void>(componentId, new ResourceStreamResource()
-        {
-            @Override
-            protected IResourceStream getResourceStream()
-            {
-                return new DataExportResourceStreamWriter(dataExporter);
-            }
-        }
-                .setFileName(fileNameModel.getObject() + "." + dataExporter.getFileNameExtension())
-                );
+	return new ResourceLink<Void>(componentId, new ResourceStreamResource()
+	{
+	    @Override
+	    protected IResourceStream getResourceStream()
+	    {
+		return new DataExportResourceStreamWriter(dataExporter);
+	    }
+	}
+		.setFileName(fileNameModel.getObject() + "." + dataExporter.getFileNameExtension()))
+		.setBody(dataExporter.getDataFormatNameModel());
     }
 
     @Override
     public boolean isVisible()
     {
-        if (dataExporters.isEmpty()){
-            return false;
-        }
-        
-        if (getTable().getRowCount() == 0){
-            return false;
-        }
-        
-        for (IColumn<?, ?> col : getTable().getColumns()){
-            if (col instanceof IExportableColumn){
-                return true;
-            }
-        }
-        
-        return false;
+	if (dataExporters.isEmpty()){
+	    return false;
+	}
+
+	if (getTable().getRowCount() == 0){
+	    return false;
+	}
+
+	for (IColumn<?, ?> col : getTable().getColumns()){
+	    if (col instanceof IExportableColumn){
+		return true;
+	    }
+	}
+
+	return false;
     }
 
     public ExportToolbar addDataExporter(IDataExporter exporter)
     {
-        Args.notNull(exporter, "exporter");
-        dataExporters.add(exporter);
-        return this;
+	Args.notNull(exporter, "exporter");
+	dataExporters.add(exporter);
+	return this;
     }
 
     public class DataExportResourceStreamWriter
-            extends AbstractResourceStreamWriter
+	    extends AbstractResourceStreamWriter
     {
-        private final IDataExporter dataExporter;
+	private final IDataExporter dataExporter;
 
-        public DataExportResourceStreamWriter(IDataExporter dataExporter)
-        {
-            this.dataExporter = dataExporter;
-        }
+	public DataExportResourceStreamWriter(IDataExporter dataExporter)
+	{
+	    this.dataExporter = dataExporter;
+	}
 
-        @Override
-        public void write(OutputStream output)
-                throws IOException
-        {
-            exportData(getTable(), dataExporter, output);
-        }
+	@Override
+	public void write(OutputStream output)
+		throws IOException
+	{
+	    exportData(getTable(), dataExporter, output);
+	}
 
-        @Override
-        public String getContentType()
-        {
-            return dataExporter.getContentType();
-        }
+	@Override
+	public String getContentType()
+	{
+	    return dataExporter.getContentType();
+	}
 
-        private <T, S> void exportData(DataTable<T, S> dataTable, IDataExporter dataExporter, OutputStream outputStream)
-                throws IOException
-        {
-            IDataProvider<T> dataProvider = dataTable.getDataProvider();
-            List<IExportableColumn<T, ?, ?>> exportableColumns = new LinkedList<IExportableColumn<T, ?, ?>>();
-            for (IColumn<T, S> col : dataTable.getColumns()){
-                if (col instanceof IExportableColumn){
-                    exportableColumns.add((IExportableColumn<T, ?, ?>)col);
-                }
-            }
-            dataExporter.exportData(dataProvider, exportableColumns, outputStream);
-        }
+	private <T, S> void exportData(DataTable<T, S> dataTable, IDataExporter dataExporter, OutputStream outputStream)
+		throws IOException
+	{
+	    IDataProvider<T> dataProvider = dataTable.getDataProvider();
+	    List<IExportableColumn<T, ?, ?>> exportableColumns = new LinkedList<IExportableColumn<T, ?, ?>>();
+	    for (IColumn<T, S> col : dataTable.getColumns()){
+		if (col instanceof IExportableColumn){
+		    exportableColumns.add((IExportableColumn<T, ?, ?>)col);
+		}
+	    }
+	    dataExporter.exportData(dataProvider, exportableColumns, outputStream);
+	}
     }
 }

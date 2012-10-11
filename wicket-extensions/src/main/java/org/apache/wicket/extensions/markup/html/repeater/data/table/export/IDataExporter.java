@@ -12,7 +12,7 @@ public interface IDataExporter
 {
     IModel<String> getDataFormatNameModel();
     
-    <R> void exportData(IDataProvider<R> dataProvider, List<IExportableColumn<R, ?, ?>> columns, OutputStream outputStream)
+    <T> void exportData(IDataProvider<T> dataProvider, List<IExportableColumn<T, ?, ?>> columns, OutputStream outputStream)
             throws IOException;
     
     String getContentType();

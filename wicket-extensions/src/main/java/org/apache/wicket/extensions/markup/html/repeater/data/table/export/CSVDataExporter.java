@@ -22,13 +22,13 @@ public class CSVDataExporter
     }
 
     @Override
-    public <R> void exportData(IDataProvider<R> dataProvider, List<IExportableColumn<R, ?, ?>> columns, OutputStream outputStream)
+    public <T> void exportData(IDataProvider<T> dataProvider, List<IExportableColumn<T, ?, ?>> columns, OutputStream outputStream)
             throws IOException
     {
         PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream, Charset.forName("UTF-8")));
         try {
             boolean first = true;
-            for (IExportableColumn<R, ?, ?> col : columns){
+            for (IExportableColumn<T, ?, ?> col : columns){
                 if (first){
                     first = false;
                 }else{
@@ -40,12 +40,12 @@ public class CSVDataExporter
             }
             out.println();
             long numberOfRows = dataProvider.size();
-            Iterator<? extends R> rowIterator = dataProvider.iterator(0, numberOfRows);
+            Iterator<? extends T> rowIterator = dataProvider.iterator(0, numberOfRows);
             while (rowIterator.hasNext()){
-                R row = rowIterator.next();
+                T row = rowIterator.next();
 
                 first = true;
-                for (IExportableColumn<R, ?, ?> col : columns){
+                for (IExportableColumn<T, ?, ?> col : columns){
                     if (first){
                         first = false;
                     }else{
@@ -67,11 +67,12 @@ public class CSVDataExporter
                             s = converter.convertToString(o, Session.get().getLocale());
                         }
 
-                        out.print("\"" + s.replace("\"", "\"\"") + "\"");
+			out.print("\"");
+                        out.print(s.replace("\"", "\"\""));
+			out.print("\"");
                     }
-
-                    out.print("\"");
                 }
+		out.println();
             }
         }finally{
             out.close();
