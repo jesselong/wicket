@@ -65,7 +65,7 @@ import org.apache.wicket.util.value.IValueMap;
  * @author Martijn Dashorst
  * @author Ralf Ebert
  */
-public class AttributeModifier extends Behavior implements IClusterable
+public class AttributeModifier extends Behavior
 {
 	/** Marker value to have an attribute without a value added. */
 	public static final String VALUELESS_ATTRIBUTE_ADD = new String("VA_ADD");
