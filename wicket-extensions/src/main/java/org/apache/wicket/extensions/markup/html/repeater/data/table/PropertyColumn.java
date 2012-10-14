@@ -17,7 +17,7 @@
 package org.apache.wicket.extensions.markup.html.repeater.data.table;
 
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
-import org.apache.wicket.extensions.markup.html.repeater.data.table.export.AbstractExportableColumn;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.export.IExportableColumn;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
@@ -46,7 +46,7 @@ import org.apache.wicket.model.PropertyModel;
  * @param <S>
  *            the type of the sort property
  */
-public class PropertyColumn<T, S> extends AbstractExportableColumn<T, S, Object>
+public class PropertyColumn<T, S> extends AbstractColumn<T, S> implements IExportableColumn<T, S, Object>
 {
 	private static final long serialVersionUID = 1L;
 
