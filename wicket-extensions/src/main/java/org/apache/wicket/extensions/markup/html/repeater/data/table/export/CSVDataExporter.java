@@ -12,70 +12,208 @@ import org.apache.wicket.Session;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.util.convert.IConverter;
+import org.apache.wicket.util.lang.Args;
 
+/**
+ * An {@link IDataExporter} that exports data to a CSV file. This class allows for customization of the exact CSV format, including
+ * setting the delimiter, the text quoting character and the character set.
+ * <p>
+ * This class will export CSV files in a format consistent with RFC4180 by default.
+ * @author Jesse Long
+ */
 public class CSVDataExporter
-        extends AbstractDataExporter
+	extends AbstractDataExporter
 {
-    public CSVDataExporter()
-    {
-        super(Model.of("CSV"), "text/csv", "csv");
-    }
+	private char delimiter = ',';
+	private String characterSet = "utf-8";
+	private char quoteCharacter = '"';
+	private boolean exportHeadersEnabled = true;
 
-    @Override
-    public <T> void exportData(IDataProvider<T> dataProvider, List<IExportableColumn<T, ?, ?>> columns, OutputStream outputStream)
-            throws IOException
-    {
-        PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream, Charset.forName("UTF-8")));
-        try {
-            boolean first = true;
-            for (IExportableColumn<T, ?, ?> col : columns){
-                if (first){
-                    first = false;
-                }else{
-                    out.print(",");
-                }
-                out.print("\"");
-                out.print(col.getDisplayModel().getObject().replace("\"", "\"\""));
-                out.print("\"");
-            }
-            out.println();
-            long numberOfRows = dataProvider.size();
-            Iterator<? extends T> rowIterator = dataProvider.iterator(0, numberOfRows);
-            while (rowIterator.hasNext()){
-                T row = rowIterator.next();
+	/**
+	 * Creates a new instance.
+	 */
+	public CSVDataExporter()
+	{
+		super(Model.of("CSV"), "text/csv", "csv");
+	}
 
-                first = true;
-                for (IExportableColumn<T, ?, ?> col : columns){
-                    if (first){
-                        first = false;
-                    }else{
-                        out.print(",");
-                    }
+	/**
+	 * Sets the delimiter to be used to separate fields. The default delimiter is a colon.
+	 * @param delimiter the delimiter to be used to separate fields.
+	 * @return {@code this}, for chaining.
+	 */
+	public CSVDataExporter setDelimiter(char delimiter)
+	{
+		this.delimiter = delimiter;
+		return this;
+	}
 
-                    Object o = col.getDataModel(dataProvider.model(row)).getObject();
+	/**
+	 * Returns the delimiter to be used for separating fields.
+	 * @return the delimiter to be used for separating fields.
+	 */
+	public char getDelimiter()
+	{
+		return delimiter;
+	}
 
-                    if (o != null){
-                        Class<?> c = o.getClass();
+	/**
+	 * Returns the character set encoding to be used when exporting data.
+	 * @return the character set encoding to be used when exporting data.
+	 */
+	public String getCharacterSet()
+	{
+		return characterSet;
+	}
 
-                        String s;
+	/**
+	 * Sets the character set encoding to be used when exporting data. This defaults to UTF-8.
+	 * @param characterSet the character set encoding to be used when exporting data.
+	 * @return {@code this}, for chaining.
+	 */
+	public CSVDataExporter setCharacterSet(String characterSet)
+	{
+		this.characterSet = Args.notNull(characterSet, "characterSer");
+		return this;
+	}
 
-                        if (c == String.class){
-                            s = o.toString();
-                        }else{
-                            IConverter converter = Application.get().getConverterLocator().getConverter(c);
+	/**
+	 * Returns the character to be used for quoting fields.
+	 * @return the character to be used for quoting fields.
+	 */
+	public char getQuoteCharacter()
+	{
+		return quoteCharacter;
+	}
 
-                            s = converter.convertToString(o, Session.get().getLocale());
-                        }
+	/**
+	 * Sets the character to be used to quote fields. This defaults to double quotes,
+	 * @param quoteCharacter  the character to be used to quote fields.
+	 * @return {@code this}, for chaining.
+	 */
+	public CSVDataExporter setQuoteCharacter(char quoteCharacter)
+	{
+		this.quoteCharacter = quoteCharacter;
+		return this;
+	}
 
-			out.print("\"");
-                        out.print(s.replace("\"", "\"\""));
-			out.print("\"");
-                    }
-                }
-		out.println();
-            }
-        }finally{
-            out.close();
-        }
-    }
+	/**
+	 * Returns the content type of the exported data. For CSV, this is normally
+	 * "text/csv". This methods adds the character set and header values, in accordance with
+	 * RFC4180.
+	 * @return  the content type of the exported data.
+	 */
+	@Override
+	public String getContentType()
+	{
+		return super.getContentType() + "; charset=" + characterSet + "; header=" + ((exportHeadersEnabled) ? "present" : "absent");
+	}
+
+	/**
+	 * Turns on or off export headers functionality. If this is set to {@code true}, then the first
+	 * line of the export will contain the column headers. This defaults to {@code true}.
+	 * @param exportHeadersEnabled a boolean indicating whether or not headers should be exported.
+	 * @return {@code this}, for chaining.
+	 */
+	public CSVDataExporter setExportHeadersEnabled(boolean exportHeadersEnabled)
+	{
+		this.exportHeadersEnabled = exportHeadersEnabled;
+		return this;
+	}
+
+	/**
+	 * Indicates if header exporting is enabled. Defaults to {@code true}.
+	 * @return a boolean indicating if header exporting is enabled.
+	 */
+	public boolean isExportHeadersEnabled()
+	{
+		return exportHeadersEnabled;
+	}
+
+	/**
+	 * Quotes a value for export to CSV. According to RFC4180, this should just duplicate all occurrences 
+	 * of the quote character and wrap the result in the quote character.
+	 * @param value the value to be quoted.
+	 * @return a quoted copy of the value.
+	 */
+	protected String quoteValue(String value)
+	{
+		return quoteCharacter + value.replace("" + quoteCharacter, "" + quoteCharacter + quoteCharacter) + quoteCharacter;
+	}
+
+	/**
+	 * {@inheritDoc }
+	 */
+	@Override
+	public <T> void exportData(IDataProvider<T> dataProvider, List<IExportableColumn<T, ?, ?>> columns, OutputStream outputStream)
+		throws IOException
+	{
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(outputStream, Charset.forName(characterSet)));
+		try
+		{
+			if (isExportHeadersEnabled())
+			{
+				boolean first = true;
+				for (IExportableColumn<T, ?, ?> col : columns)
+				{
+					if (first)
+					{
+						first = false;
+					}
+					else
+					{
+						out.print(delimiter);
+					}
+					out.print(quoteValue(col.getDisplayModel().getObject()));
+				}
+				out.print("\r\n");
+			}
+			long numberOfRows = dataProvider.size();
+			Iterator<? extends T> rowIterator = dataProvider.iterator(0, numberOfRows);
+			while (rowIterator.hasNext())
+			{
+				T row = rowIterator.next();
+
+				boolean first = true;
+				for (IExportableColumn<T, ?, ?> col : columns)
+				{
+					if (first)
+					{
+						first = false;
+					}
+					else
+					{
+						out.print(delimiter);
+					}
+
+					Object o = col.getDataModel(dataProvider.model(row)).getObject();
+
+					if (o != null)
+					{
+						Class<?> c = o.getClass();
+
+						String s;
+
+						IConverter converter = Application.get().getConverterLocator().getConverter(c);
+
+						if (converter == null)
+						{
+							s = o.toString();
+						}
+						else
+						{
+							s = converter.convertToString(o, Session.get().getLocale());
+						}
+
+						out.print(quoteValue(s));
+					}
+				}
+				out.print("\r\n");
+			}
+		}
+		finally
+		{
+			out.close();
+		}
+	}
 }
