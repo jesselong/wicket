@@ -18,6 +18,7 @@ package org.apache.wicket.core.request.mapper;
 
 import org.apache.wicket.core.request.handler.PageProvider;
 import org.apache.wicket.core.request.handler.RenderPageRequestHandler;
+import org.apache.wicket.core.request.handler.RequestSettingRequestHandler;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.IRequestHandler;
 import org.apache.wicket.request.Request;
@@ -97,6 +98,8 @@ public class CryptoMapperTest extends AbstractMapperTest
 	{
 		Request request = getRequest(Url.parse(ENCRYPTED_URL));
 		IRequestHandler requestHandler = mapper.mapRequest(request);
+		assertTrue(requestHandler instanceof RequestSettingRequestHandler);
+		requestHandler = ((RequestSettingRequestHandler)requestHandler).getWrappedRequestHandler();
 		assertTrue(requestHandler instanceof RenderPageRequestHandler);
 
 		RenderPageRequestHandler handler = (RenderPageRequestHandler)requestHandler;
@@ -112,6 +115,8 @@ public class CryptoMapperTest extends AbstractMapperTest
 	{
 		Request request = getRequest(Url.parse("?named1=value1"));
 		IRequestHandler requestHandler = mapper.mapRequest(request);
+		assertTrue(requestHandler instanceof RequestSettingRequestHandler);
+		requestHandler = ((RequestSettingRequestHandler)requestHandler).getWrappedRequestHandler();
 		assertTrue(requestHandler instanceof RenderPageRequestHandler);
 
 		RenderPageRequestHandler handler = (RenderPageRequestHandler)requestHandler;
@@ -154,6 +159,8 @@ public class CryptoMapperTest extends AbstractMapperTest
 
 		Request request = getRequest(url);
 		IRequestHandler requestHandler = mapper.mapRequest(request);
+		assertTrue(requestHandler instanceof RequestSettingRequestHandler);
+		requestHandler = ((RequestSettingRequestHandler)requestHandler).getWrappedRequestHandler();
 		assertTrue(requestHandler instanceof RenderPageRequestHandler);
 
 		RenderPageRequestHandler handler = (RenderPageRequestHandler)requestHandler;
@@ -180,6 +187,8 @@ public class CryptoMapperTest extends AbstractMapperTest
 		
 		Request request = getRequest(url);
 		IRequestHandler requestHandler = mapper.mapRequest(request);
+		assertTrue(requestHandler instanceof RequestSettingRequestHandler);
+		requestHandler = ((RequestSettingRequestHandler)requestHandler).getWrappedRequestHandler();
 		assertTrue(requestHandler instanceof RenderPageRequestHandler);
 
 		RenderPageRequestHandler handler = (RenderPageRequestHandler)requestHandler;
@@ -202,6 +211,8 @@ public class CryptoMapperTest extends AbstractMapperTest
 
 		IRequestHandler requestHandler = mapper.mapRequest(request);
 
+		assertTrue(requestHandler instanceof RequestSettingRequestHandler);
+		requestHandler = ((RequestSettingRequestHandler)requestHandler).getWrappedRequestHandler();
 		assertTrue(requestHandler instanceof ResourceReferenceRequestHandler);
 		ResourceReferenceRequestHandler handler = (ResourceReferenceRequestHandler)requestHandler;
 
@@ -225,6 +236,8 @@ public class CryptoMapperTest extends AbstractMapperTest
 
 		IRequestHandler requestHandler = mapper.mapRequest(request);
 
+		assertTrue(requestHandler instanceof RequestSettingRequestHandler);
+		requestHandler = ((RequestSettingRequestHandler)requestHandler).getWrappedRequestHandler();
 		assertTrue(requestHandler instanceof ResourceReferenceRequestHandler);
 		ResourceReferenceRequestHandler handler = (ResourceReferenceRequestHandler)requestHandler;
 
@@ -249,6 +262,8 @@ public class CryptoMapperTest extends AbstractMapperTest
 
 		IRequestHandler requestHandler = mapper.mapRequest(request);
 
+		assertTrue(requestHandler instanceof RequestSettingRequestHandler);
+		requestHandler = ((RequestSettingRequestHandler)requestHandler).getWrappedRequestHandler();
 		assertTrue(requestHandler instanceof ResourceReferenceRequestHandler);
 		ResourceReferenceRequestHandler handler = (ResourceReferenceRequestHandler)requestHandler;
 
@@ -273,6 +288,8 @@ public class CryptoMapperTest extends AbstractMapperTest
 
 		IRequestHandler requestHandler = mapper.mapRequest(request);
 
+		assertTrue(requestHandler instanceof RequestSettingRequestHandler);
+		requestHandler = ((RequestSettingRequestHandler)requestHandler).getWrappedRequestHandler();
 		assertTrue(requestHandler instanceof ResourceReferenceRequestHandler);
 		ResourceReferenceRequestHandler handler = (ResourceReferenceRequestHandler)requestHandler;
 

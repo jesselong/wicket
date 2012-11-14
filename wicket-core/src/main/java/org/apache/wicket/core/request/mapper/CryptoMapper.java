@@ -19,6 +19,7 @@ package org.apache.wicket.core.request.mapper;
 import java.util.List;
 
 import org.apache.wicket.Application;
+import org.apache.wicket.core.request.handler.RequestSettingRequestHandler;
 import org.apache.wicket.request.IRequestHandler;
 import org.apache.wicket.request.IRequestMapper;
 import org.apache.wicket.request.Request;
@@ -110,7 +111,16 @@ public class CryptoMapper implements IRequestMapper
 			return wrappedMapper.mapRequest(request);
 		}
 
-		return wrappedMapper.mapRequest(request.cloneWithUrl(url));
+		Request decryptedRequest = request.cloneWithUrl(url);
+		
+		IRequestHandler handler = wrappedMapper.mapRequest(decryptedRequest);
+		
+		if (handler != null)
+		{
+		    handler = new RequestSettingRequestHandler(decryptedRequest, handler);
+		}
+		
+		return handler;
 	}
 
 	/**
