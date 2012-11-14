@@ -163,12 +163,13 @@ public class CryptoMapperTest extends AbstractMapperTest
 	}
 
 	/**
-	 * https://issues.apache.org/jira/browse/WICKET-3926
+	 * When the home page url is requested, with parameters, the url will contain only page parameters.
+	 * It should not be encrypted, otherwise we get needless redirects.
 	 */
 	@Test
 	public void homePageWithParameters()
 	{
-		String expectedEncrypted = "0lhSFdMIt3yZUNwbtLuXgDePMclxSbks";
+		String expectedEncrypted = "?namedKey1=namedValue1";
 		PageParameters expectedParameters = new PageParameters();
 		expectedParameters.add("namedKey1", "namedValue1");
 
@@ -176,7 +177,7 @@ public class CryptoMapperTest extends AbstractMapperTest
 			new PageProvider(tester.getApplication().getHomePage(), expectedParameters));
 		Url url = mapper.mapHandler(renderPageRequestHandler);
 		assertEquals(expectedEncrypted, url.toString());
-
+		
 		Request request = getRequest(url);
 		IRequestHandler requestHandler = mapper.mapRequest(request);
 		assertTrue(requestHandler instanceof RenderPageRequestHandler);
